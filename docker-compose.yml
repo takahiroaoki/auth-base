@@ -8,6 +8,27 @@ services:
     volumes:
       - ./app:/app
     working_dir: /app
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_PORT=${MYSQL_PORT}
     ports:
       - "8000:8000"
+    depends_on:
+      - db
     tty: true
+  db:
+    image: mysql:8.0.33
+    container_name: auth-base_db
+    volumes:
+      - ./scripts/mysql:/scripts
+    working_dir: /scripts
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - ${MYSQL_PORT}:3306
