@@ -25,4 +25,4 @@ WORKDIR /app
 COPY ./app/pyproject.toml* ./app/poetry.lock* /app/
 RUN poetry install
 
-ENTRYPOINT ["poetry", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--reload"]
+ENTRYPOINT ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--reload"]

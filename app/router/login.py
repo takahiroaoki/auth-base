@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-import src.schema.login as login_schema
-import src.domain.service.login as login_service
+import schema.login as login_schema
+import domain.service.login as login_service
 
 router = APIRouter()
 
