@@ -5,5 +5,5 @@ SELECT
 FROM
     users
 WHERE
-    user_email = '{user_email}'
+    user_email = %(user_email)s
     AND del_flg = 0
