@@ -12,6 +12,9 @@ The environment is bellow.
 # @project root
 $ docker compose build
 $ docker compose up -d
+
+# Initialize the database. Type "password" when asked.
+$ docker exec -it auth-base_db /bin/bash /scripts/setup.sh
 ```
 
 Then, get access to http://localhost:8000/docs

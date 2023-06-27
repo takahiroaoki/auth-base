@@ -1,8 +1,6 @@
 from fastapi import FastAPI
+from src.router import login
 
 app = FastAPI()
 
-
-@app.get("/hello")
-async def hello():
-    return {"message": "hello world!"}
+app.include_router(login.router)
