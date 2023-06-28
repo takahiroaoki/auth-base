@@ -18,5 +18,6 @@ INSERT INTO users (
     user_password
 ) VALUES (
     "user@example.com",
-    "password"
+    "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
 );
+# the value of user_password is the result of encoding "password"
