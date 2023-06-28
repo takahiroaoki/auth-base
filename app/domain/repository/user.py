@@ -1,4 +1,5 @@
 from typing import Optional, Tuple
+
 from domain.entity.user import User
 import domain.repository.database.dbutil as dbutil
 
@@ -12,10 +13,7 @@ def get_user_by_email(user_email: str) -> Optional[User]:
         cursor.execute(sql_stmt, sql_params)
         result: Optional[Tuple] = cursor.fetchone()
         if result:
-            user = User()
-            user.id = result[0]
-            user.email = result[1]
-            user.password = result[2]
+            user = User().set_id(result[0]).set_email(result[1]).set_password(result[2])
             return user
         else:
             return None
