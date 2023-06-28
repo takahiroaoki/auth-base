@@ -4,22 +4,22 @@ from pydantic import BaseModel, Field
 """
 Request
 """
-class LoginRequest(BaseModel):
+class Request(BaseModel):
     user_email: str
     user_password: str
 
 """
 Response
 """
-class UserData(BaseModel):
+class UserInfo(BaseModel):
     user_id: str = Field("", description = "user_id")
     user_email: str = Field("", description = "user_email")
 
-class Result(BaseModel):
+class Contents(BaseModel):
     is_success: bool = Field(False, description = "Whether the login is success or not.")
-    user_data: Optional[UserData] = Field(None, description = "user's data if the login is success")
+    user_info: Optional[UserInfo] = Field(None, description = "user's information if the login is success")
 
-class LoginResponse(BaseModel):
-    result: Result = Field(Result(), description = "result of the request")
+class Response(BaseModel):
+    contents: Contents = Field(Contents(), description = "Contents of the request")
 
 
