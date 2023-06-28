@@ -8,7 +8,7 @@ MYSQL_USER=os.environ["MYSQL_USER"]
 MYSQL_PASSWORD=os.environ["MYSQL_PASSWORD"]
 MYSQL_PORT=os.environ["MYSQL_PORT"]
 
-async def get_connection():
+def get_connection():
     connection = mysql.connector.connect(
         host=MYSQL_HOST,
         port=MYSQL_PORT,
@@ -18,7 +18,7 @@ async def get_connection():
     )
     return connection
 
-async def get_query(filepath: str) -> str:
+def get_query(filepath: str) -> str:
     """
         filepath: sql filepath from 'sql' directory
     """

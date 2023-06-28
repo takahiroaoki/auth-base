@@ -2,12 +2,12 @@ from typing import Optional, Tuple
 from domain.entity.user import User
 import domain.repository.database.dbutil as dbutil
 
-async def get_user_by_email(user_email: str) -> Optional[User]:
-    sql_stmt: str = await dbutil.get_query("user/get_user_by_email.sql")
+def get_user_by_email(user_email: str) -> Optional[User]:
+    sql_stmt: str = dbutil.get_query("user/get_user_by_email.sql")
     sql_params = {
         "user_email": user_email,
     }
-    with await dbutil.get_connection() as conn:
+    with dbutil.get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(sql_stmt, sql_params)
         result: Optional[Tuple] = cursor.fetchone()
