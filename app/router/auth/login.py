@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-import schema.login as login_schema
-import domain.service.login as login_service
+import schema.auth.login as login_schema
+import domain.service.auth.login as login_service
 from domain.entity.user import User
 
 router = APIRouter()
