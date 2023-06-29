@@ -24,6 +24,6 @@ def login(login_request: login_schema.Request):
     else:
         return login_schema.Response(
             contents = login_schema.Contents(
-                is_success = login_result["is_success"]
+                is_success = login_result.get("is_success")
             )
         )
