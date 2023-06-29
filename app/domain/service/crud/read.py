@@ -3,8 +3,8 @@ from typing import Optional
 from domain.entity.user import User
 import domain.repository.user as user_repository
 
-def read(user_id: str, conn) -> dict:
-    user: Optional[User] = user_repository.get_user_by_id(user_id, conn)
+def read(user_id: str) -> dict:
+    user: Optional[User] = user_repository.get_user_by_id(user_id)
     
     if user:
         return {

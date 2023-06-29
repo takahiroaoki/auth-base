@@ -1,16 +1,15 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 
 import schema.crud.create as create_schema
 from domain.entity.user import User
 import domain.service.crud.create as create_service
-import infrastructure.database as db
 
 router = APIRouter()
 
 @router.post("/create", response_model=create_schema.Response)
-def create(request: create_schema.Request, conn = Depends(db.get_connection)):
+def create(request: create_schema.Request):
     create_info: User = User().set_email(request.user_email).set_password(request.user_password)
-    create_result: dict = create_service.create(create_info, conn)
+    create_result: dict = create_service.create(create_info)
     if create_result.get("is_success"):
         return create_schema.Response(
             contents = create_schema.Contents(
