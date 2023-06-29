@@ -37,11 +37,11 @@ def insert_user(create_info: User) -> Optional[User]:
         "user_email": create_info.get_email(),
         "user_password": create_info.get_password()
     }
-    with dbutil.get_connection() as conn, conn.cursor(buffered = True) as cursor:
+    with dbutil.get_connection() as conn, conn.cursor() as cursor:
         try:
             cursor.execute(sql_stmt, sql_params)
             cursor.execute(dbutil.get_query("user/last_insert_id.sql"))
-            user: User = User().set_id(cursor.fetchone()[0]).set_email(create_info.get_email())
+            user: User = User().set_id(cursor.fetchall()[0][0]).set_email(create_info.get_email())
             conn.commit()
             return user
         except Exception as e:
