@@ -1,14 +1,14 @@
 from typing import Optional, Tuple
 
 from domain.entity.user import User
-import domain.repository.sql.query as query
+from domain.repository.database import dbutil
 
-def get_user_by_email(user_email: str, conn) -> Optional[User]:
-    sql_stmt: str = query.get("user/get_user_by_email.sql")
+def get_user_by_email(user_email: str) -> Optional[User]:
+    sql_stmt: str = dbutil.get_query("user/get_user_by_email.sql")
     sql_params = {
         "user_email": user_email,
     }
-    with conn, conn.cursor() as cursor:
+    with dbutil.get_connection() as conn, conn.cursor() as cursor:
         cursor.execute(sql_stmt, sql_params)
         result: Optional[Tuple] = cursor.fetchone()
         if result:
@@ -17,12 +17,12 @@ def get_user_by_email(user_email: str, conn) -> Optional[User]:
         else:
             return None
 
-def get_user_by_id(user_id: str, conn) -> Optional[User]:
-    sql_stmt: str = query.get("user/get_user_by_id.sql")
+def get_user_by_id(user_id: str) -> Optional[User]:
+    sql_stmt: str = dbutil.get_query("user/get_user_by_id.sql")
     sql_params = {
         "user_id": user_id,
     }
-    with conn, conn.cursor() as cursor:
+    with dbutil.get_connection() as conn, conn.cursor() as cursor:
         cursor.execute(sql_stmt, sql_params)
         result: Optional[Tuple] = cursor.fetchone()
         if result:
@@ -31,19 +31,20 @@ def get_user_by_id(user_id: str, conn) -> Optional[User]:
         else:
             return None
 
-def insert_user(create_info: User, conn) -> Optional[User]:
-    sql_stmt: str = query.get("user/insert_user.sql")
+def insert_user(create_info: User) -> Optional[User]:
+    sql_stmt: str = dbutil.get_query("user/insert_user.sql")
     sql_params = {
         "user_email": create_info.get_email(),
         "user_password": create_info.get_password()
     }
-    with conn, conn.cursor() as cursor:
+    with dbutil.get_connection() as conn, conn.cursor() as cursor:
         try:
             cursor.execute(sql_stmt, sql_params)
-            cursor.execute(query.get("user/last_insert_id.sql"))
-            user: User = User().set_id(cursor.fetchone()[0]).set_email(create_info.get_email())
+            cursor.execute(dbutil.get_query("user/last_insert_id.sql"))
+            user: User = User().set_id(cursor.fetchall()[0][0]).set_email(create_info.get_email())
             conn.commit()
             return user
-        except:
+        except Exception as e:
+            print(e)
             conn.rollback()
             return None

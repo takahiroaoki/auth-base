@@ -1,14 +1,13 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 
 import schema.crud.read as read_schema
 import domain.service.crud.read as read_service
-import infrastructure.database as db
 
 router = APIRouter()
 
 @router.get("/read", response_model=read_schema.Response)
-def read(user_id: str, conn = Depends(db.get_connection)):
-    read_result: dict = read_service.read(user_id, conn)
+def read(user_id: str):
+    read_result: dict = read_service.read(user_id)
     if read_result.get("is_success"):
         return read_schema.Response(
             contents = read_schema.Contents(
