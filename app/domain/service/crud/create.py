@@ -2,10 +2,16 @@ from typing import Optional
 
 from domain.entity.user import User
 import domain.repository.user as user_repository
+import domain.util.hash as hash_util
 
-def read(user_id: str, conn) -> dict:
-    user: Optional[User] = user_repository.get_user_by_id(user_id, conn)
-    
+def create(create_info: User, conn) -> dict:
+    user: Optional[User] = user_repository.insert_user(
+        create_info.set_password(
+            hash_util.get_hash_sha256(create_info.get_password())
+        ),
+        conn
+    )
+
     if user:
         return {
             "is_success": True,

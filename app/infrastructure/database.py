@@ -17,10 +17,3 @@ def get_connection():
         password=MYSQL_PASSWORD
     )
     return connection
-
-def get_query(filepath: str) -> str:
-    """
-        filepath: sql filepath from 'sql' directory
-    """
-    with open(os.path.join(os.path.dirname(__file__), "sql", filepath), "r") as f:
-        return f.read()
