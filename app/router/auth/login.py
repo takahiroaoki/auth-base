@@ -1,14 +1,14 @@
 from fastapi import APIRouter
 
-import schema.login as login_schema
-import domain.service.login as login_service
+import schema.auth.login as login_schema
+import domain.service.auth.login as login_service
 from domain.entity.user import User
 
 router = APIRouter()
 
 @router.post("/login", response_model=login_schema.Response)
-def login(login_request: login_schema.Request):
-    login_info = User().set_email(login_request.user_email).set_password(login_request.user_password)
+def login(request: login_schema.Request):
+    login_info = User().set_email(request.user_email).set_password(request.user_password)
     login_result: dict = login_service.login(login_info)
     
     if login_result.get("is_success"):
