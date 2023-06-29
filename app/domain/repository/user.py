@@ -40,12 +40,10 @@ def insert_user(create_info: User, conn) -> Optional[User]:
     with conn, conn.cursor() as cursor:
         try:
             cursor.execute(sql_stmt, sql_params)
-            user: Optional[User] = get_user_by_email(create_info.get_email(), conn)
-            if user:
-                conn.commit()
-                return user
-            else:
-                raise Exception()
+            cursor.execute(query.get("user/last_insert_id.sql"))
+            user: User = User().set_id(cursor.fetchone()[0]).set_email(create_info.get_email())
+            conn.commit()
+            return user
         except:
             conn.rollback()
             return None
